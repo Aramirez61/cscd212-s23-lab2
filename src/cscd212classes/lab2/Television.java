@@ -14,14 +14,14 @@ public class Television implements Comparable<Television>
 
     public Television(final String make, final String model, final boolean smart, final int screenSize, final int resolution) {
         if (make == null || make.isEmpty() || model == null || model.isEmpty() || screenSize < 32 || resolution < 720)
-            throw new IllegalArgumentException("Bad TV parameters");
+            throw new IllegalArgumentException("Invalid parameter in constructor");
 
         this.model = model;
         this.smart = smart;
         this.screenSize = screenSize;
         this.resolution = resolution;
         this.make = make;
-        if (resolution > 2160)
+        if (resolution == 2160)
             this.fourK = true;
 
         else
@@ -56,46 +56,45 @@ public class Television implements Comparable<Television>
         String tvDescription = this.make + "-" + this.model + ", " + this.screenSize + " inch ";
 
         if (this.smart)
-            tvDescription += "smart";
+            tvDescription += "smart ";
 
-        tvDescription += "tv with ";
+        tvDescription += "tv ";
 
         if (this.resolution == 2160)
-            tvDescription += "4K resolution";
+            tvDescription += "with 4K resolution";
         else
-            tvDescription += " with " + this.resolution + " resolution";
+            tvDescription += "with " + this.resolution + " resolution";
         return tvDescription;
     }
 
+
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        Television other = (Television) obj;
-        return this.fourK == other.fourK &&
-                this.resolution == other.resolution &&
-                this.screenSize == other.screenSize &&
-                this.smart == other.smart &&
-                this.make.equals(other.make) &&
-                this.model.equals(other.model);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Television)) return false;
+        Television that = (Television) o;
+        return this.smart == that.smart &&
+                screenSize == that.screenSize &&
+                resolution == that.resolution &&
+                Objects.equals(make, that.make) &&
+                Objects.equals(model, that.model);
     }
+
 
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(fourK, make, model, resolution, screenSize, smart);
+        return make.hashCode() + model.hashCode() + resolution + Boolean.hashCode(smart) + Boolean.hashCode(fourK);
     }
+
 
 
     @Override
     public int compareTo(Television another) {
         if (another == null) {
-            throw new IllegalArgumentException("Argument cannot be null");
+            throw new IllegalArgumentException("null parameter in the compareTo method");
         }
 
         int makeComp = this.make.compareTo(another.make);
