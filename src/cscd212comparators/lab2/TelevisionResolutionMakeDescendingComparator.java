@@ -6,7 +6,7 @@ public class TelevisionResolutionMakeDescendingComparator implements Comparator<
 {
 
     @Override
-    public int compare(Television t1, Television t2) {
+    public int compare(final Television t1, final Television t2) {
         if(t1 == null || t2 == null)
             throw new IllegalArgumentException("null parameter in TelevisionResolutionMakeDescendingComparator");
 
